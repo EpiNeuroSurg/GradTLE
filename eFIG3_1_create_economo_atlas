@@ -1,0 +1,64 @@
+#1  
+mris_ca_label \
+  -orig white \
+  -t /host/verges/tank/data/mo/atlas2/lh.colortable.txt \
+  fsaverage \
+  lh \
+  sphere.reg \
+  /host/verges/tank/data/mo/atlas2/lh.economo.gcs \
+  $SUBJECTS_DIR/fsaverage/label/lh.economo.annot
+  
+mris_ca_label \
+  -orig white \
+  -t /host/verges/tank/data/mo/atlas2/rh.colortable.txt \
+  fsaverage \
+  rh \
+  sphere.reg \
+  /host/verges/tank/data/mo/atlas2/rh.economo.gcs \
+  $SUBJECTS_DIR/fsaverage/label/rh.economo.annot
+
+freeview   -f $SUBJECTS_DIR/fsaverage/surf/lh.inflated:annot=$SUBJECTS_DIR/fsaverage/label/lh.economo.annot
+freeview   -f $SUBJECTS_DIR/fsaverage/surf/rh.inflated:annot=$SUBJECTS_DIR/fsaverage/label/rh.economo.annot
+
+#2
+mris_convert --annot \
+  /host/verges/tank/data/mo/atlas2/lh.economo.annot \
+  $SUBJECTS_DIR/fsaverage/surf/lh.white \
+  lh.economo.label.gii
+  
+mris_convert --annot \
+  /host/verges/tank/data/mo/atlas2/rh.economo.annot \
+  $SUBJECTS_DIR/fsaverage/surf/rh.white \
+  rh.economo.label.gii
+  
+#3
+wb_command -label-resample \
+    /host/verges/tank/data/mo/atlas2/lh.economo.label.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fsaverage_std_sphere.L.164k_fsavg_L.surf.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fs_LR-deformed_to-fsaverage.L.sphere.32k_fs_LR.surf.gii \
+    BARYCENTRIC \
+    lh.economo.32k_fsLR.label.gii
+
+wb_command -label-resample \
+    /host/verges/tank/data/mo/atlas2/rh.economo.label.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fsaverage_std_sphere.R.164k_fsavg_R.surf.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fs_LR-deformed_to-fsaverage.R.sphere.32k_fs_LR.surf.gii \
+    BARYCENTRIC \
+    rh.economo.32k_fsLR.label.gii
+
+#4 Julich
+wb_command -label-resample \
+    /home/bic/jiajiemo/Downloads/JulichAtlas/fsaverage_surface/lh.JulichBrainAtlas_3.1.label.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fsaverage_std_sphere.L.164k_fsavg_L.surf.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fs_LR-deformed_to-fsaverage.L.sphere.32k_fs_LR.surf.gii \
+    BARYCENTRIC \
+    /host/verges/tank/data/mo/atlas/lh.JulichBrainAtlas_3.1.fsLR32k.label.gii
+
+wb_command -label-resample \
+    /home/bic/jiajiemo/Downloads/JulichAtlas/fsaverage_surface/rh.JulichBrainAtlas_3.1.label.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fsaverage_std_sphere.R.164k_fsavg_R.surf.gii \
+    /host/verges/tank/data/mo/software/HCPpipelines-master/global/templates/standard_mesh_atlases/resample_fsaverage/fs_LR-deformed_to-fsaverage.R.sphere.32k_fs_LR.surf.gii \
+    BARYCENTRIC \
+    /host/verges/tank/data/mo/atlas/rh.JulichBrainAtlas_3.1.fsLR32k.label.gii
+
+
